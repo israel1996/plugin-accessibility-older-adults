@@ -62,6 +62,23 @@ function changeImageSize(scaleFactor) {
     });
 }
 
+// Función para alternar el contraste de la página
+function toggleContrast() {
+    document.body.classList.toggle('high-contrast');
+}
+
+// Añadir estilos de alto contraste
+const style = document.createElement('style');
+style.innerHTML = `
+.high-contrast {
+    filter: invert(100%);
+    background-color: black !important;
+}
+.high-contrast img, .high-contrast video {
+    filter: invert(100%) !important;
+}`;
+document.head.appendChild(style);
+
 
 // Aplica todas las configuraciones guardadas
 function applyAllSettings() {
@@ -99,6 +116,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         changeLineHeight(request.lineHeight);
     } else if (request.action === "changeImageSize") {
         changeImageSize(Number(request.scaleFactor));
+    } else if (request.action === "toggleContrast") {
+        toggleContrast();
     }
 
     // Reaplicar todas las configuraciones para asegurar coherencia

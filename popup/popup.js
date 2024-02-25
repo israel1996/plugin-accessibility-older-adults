@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const buttonSizeSlider = document.getElementById('buttonSizeSlider');
     const lineHeightSlider = document.getElementById('lineHeightSlider');
     const imageSizeSlider = document.getElementById('imageSizeSlider');
+    const toggleContrastButton = document.getElementById('toggleContrast');
 
     const fontSizeValue = document.getElementById('fontSizeValue');
     const buttonSizeValue = document.getElementById('buttonSizeValue');
@@ -81,6 +82,11 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.storage.sync.set({ scaleFactor: scaleFactor });
         updateActiveTab({ action: "changeImageSize", scaleFactor: scaleFactor });
     }, 250));
+
+    // Manejador del botón de contraste
+    toggleContrastButton.addEventListener('click', function() {
+        updateActiveTab({ action: "toggleContrast" });
+    });
 
 
 });
