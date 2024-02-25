@@ -80,6 +80,45 @@ style.innerHTML = `
 document.head.appendChild(style);
 
 
+//Ubicar alt encima de una imagen
+function toggleImageAltText() {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+        let altTextContainer = img.nextElementSibling;
+        // Verificar si el texto alternativo ya está visible
+        if (altTextContainer && altTextContainer.classList.contains('img-alt-text')) {
+            // Si está visible, lo ocultamos
+            altTextContainer.style.display = altTextContainer.style.display === 'none' ? '' : 'none';
+        } else {
+            // Si no está visible, lo mostramos
+            const altText = document.createElement('div');
+            altText.classList.add('img-alt-text');
+            altText.textContent = img.alt || 'Sin texto alt';
+            altText.style.cssText = `
+                position: absolute;
+                color: black;
+                background-color: rgba(255, 255, 255, 0.7);
+                border: 1px solid black;
+                padding: 2px;
+                border-radius: 4px;
+                max-width: 100%;
+                word-wrap: break-word;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                display: '';
+            `;
+            if (!img.style.position || img.style.position === 'static') {
+                img.style.position = 'relative';
+            }
+            img.parentNode.insertBefore(altText, img.nextSibling);
+        }
+    });
+}
+
+
+
+
 // Aplica todas las configuraciones guardadas
 function applyAllSettings() {
     chrome.storage.sync.get(['fontSize', 'buttonSize', 'lineHeight', 'scaleFactor'], data => {
@@ -118,7 +157,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         changeImageSize(Number(request.scaleFactor));
     } else if (request.action === "toggleContrast") {
         toggleContrast();
+    } else if (request.action === "toggleImageAltText") {
+        toggleImageAltText();
     }
+    
 
     // Reaplicar todas las configuraciones para asegurar coherencia
     applyAllSettings();

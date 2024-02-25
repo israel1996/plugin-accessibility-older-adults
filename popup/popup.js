@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const lineHeightSlider = document.getElementById('lineHeightSlider');
     const imageSizeSlider = document.getElementById('imageSizeSlider');
     const toggleContrastButton = document.getElementById('toggleContrast');
+    const showImageAltText = document.getElementById('showImageAltText');
 
     const fontSizeValue = document.getElementById('fontSizeValue');
     const buttonSizeValue = document.getElementById('buttonSizeValue');
@@ -87,6 +88,11 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleContrastButton.addEventListener('click', function() {
         updateActiveTab({ action: "toggleContrast" });
     });
+
+    showImageAltText.addEventListener('click', function() {
+        updateActiveTab({ action: "toggleImageAltText" });
+    });
+    
 
 
 });
