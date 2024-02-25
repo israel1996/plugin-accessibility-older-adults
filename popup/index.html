@@ -24,14 +24,14 @@
         <span id="lineHeightValue" class="slider-value"></span>
     </div>
     <div class="slider-container">
-        <label for="imageSizeSlider">Tamaño de Imágenes:</label>
-        <input type="range" id="imageSizeSlider" min="100" max="200" value="100">
+        <label for="imageSizeSlider">Factor de Escala de Imágenes:</label>
+        <input type="range" id="imageSizeSlider" min="0.5" max="2.0" step="0.1" value="1">
+        <span id="imageSizeValue" class="slider-value">1x</span>
     </div>
     <button id="toggleContrast">Cambiar Contraste</button>
     <button id="showAltText">Mostrar texto en Imagenes</button>
 
     <button id="generateSummary">Resumen de Página</button>
-    <div id="summary-container" style="display:none;"></div>
     <div id="summary-container">El resumen aparecerá aquí</div>
 
     <script src="/popup/popup.js"></script>

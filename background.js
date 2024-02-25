@@ -15,7 +15,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 function applySettingsToTab(tabId) {
     chrome.tabs.get(tabId, function(tab) {
         if (tab && tab.url && tab.url.startsWith('http')) {
-            chrome.storage.sync.get(['fontSize'], function(data) {
+            chrome.storage.sync.get(['fontSize', 'buttonSize', 'lineHeight', 'scaleFactor'], function(data) {
                 if (data.fontSize) {
                     sendMessageToTab(tab.id, { action: "changeFontSize", fontSize: data.fontSize });
                 }
@@ -24,6 +24,9 @@ function applySettingsToTab(tabId) {
                 }
                 if (data.lineHeight) {
                     sendMessageToTab(tab.id, { action: "changeLineHeight", lineHeight: data.lineHeight });
+                }
+                if (data.scaleFactor) {
+                    sendMessageToTab(tab.id, { action: "changeImageSize", scaleFactor: data.scaleFactor });
                 }
             });
         }

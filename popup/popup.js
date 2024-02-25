@@ -23,13 +23,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const fontSizeSlider = document.getElementById('fontSizeSlider');
     const buttonSizeSlider = document.getElementById('buttonSizeSlider');
     const lineHeightSlider = document.getElementById('lineHeightSlider');
+    const imageSizeSlider = document.getElementById('imageSizeSlider');
+
     const fontSizeValue = document.getElementById('fontSizeValue');
     const buttonSizeValue = document.getElementById('buttonSizeValue');
     const lineHeightValue = document.getElementById('lineHeightValue');
+    const imageSizeValue = document.getElementById('imageSizeValue');
 
 
     // Carga las configuraciones del Storge a los controles deslizantes
-    chrome.storage.sync.get(['fontSize', 'buttonSize', 'lineHeight'], function (data) {
+    chrome.storage.sync.get(['fontSize', 'buttonSize', 'lineHeight', 'scaleFactor'], function (data) {
         if (data.fontSize) {
             fontSizeSlider.value = data.fontSize.replace('px', '');
             fontSizeValue.textContent = data.fontSize;
@@ -41,6 +44,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (data.lineHeight) {
             lineHeightSlider.value = data.lineHeight;
             lineHeightValue.textContent = data.lineHeight;
+        }
+        if (data.scaleFactor) {
+            imageSizeSlider.value = data.scaleFactor;
+            imageSizeValue.textContent = data.scaleFactor;
         }
 
     });
@@ -67,6 +74,13 @@ document.addEventListener('DOMContentLoaded', function () {
         updateActiveTab({ action: "changeLineHeight", lineHeight: lineHeight });
     }, 250));
 
+    // Suponiendo que el control deslizante de tamaño de imagen ahora representa un factor de escala
+    imageSizeSlider.addEventListener('input', debounce(function () {
+        const scaleFactor = imageSizeSlider.value; // Este valor es ahora un factor, no un tamaño fijo
+        imageSizeValue.textContent = scaleFactor + 'x'; // Mostrar el factor de escala, como "1.5x"
+        chrome.storage.sync.set({ scaleFactor: scaleFactor });
+        updateActiveTab({ action: "changeImageSize", scaleFactor: scaleFactor });
+    }, 250));
 
 
 });
